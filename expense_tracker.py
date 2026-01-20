@@ -1,3 +1,6 @@
+from datetime import datetime
+
+
 # Function to add transactions
 def add_transactions(transaction):
 
@@ -9,6 +12,9 @@ def add_transactions(transaction):
         if user_input in ["yes", "y", "yeah"]:
 
             try:
+
+                current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
                 input_amount = int(input("Amount (positive value for deposit and negative for Expense): "))
                 input_category = input("Category (e.g., Food, Salary, Rent, Shopping): ")
                 input_description = input("Description: (Food name, Monthly Salary, Cloth shopping etc) ")
@@ -16,6 +22,7 @@ def add_transactions(transaction):
                 my_dict["amount"] = input_amount
                 my_dict["category"] = input_category
                 my_dict["description"] = input_description
+                my_dict["date"] = current_time
 
                 transaction.append(my_dict)
 
@@ -41,8 +48,10 @@ def show_summary(transactions):
     categories = {}
     for t in transactions:
         category = t["category"]
+
         if category not in categories:
             categories[category] = []
+
         categories[category].append(t["amount"])
 
     # Calculate totals
@@ -50,6 +59,7 @@ def show_summary(transactions):
     total_expense = 0
 
     for category, amounts in categories.items():
+
         income = sum(a for a in amounts if a >= 0)
         expense = sum(abs(a) for a in amounts if a < 0)
         highest = max(amounts)
@@ -99,7 +109,7 @@ def show_transaction_history(transactions):
 
     i = 1
     for t in transactions:
-        print(f"{i}. Category: {t['category']} | Amount: {t['amount']} | Description: {t['description']}")
+        print(f"{i}. {t['date']} ---> Category: {t['category']} | Amount: {t['amount']} | Description: {t['description']}")
         i+=1
 
     print ("\n========================================================\n")
@@ -118,7 +128,7 @@ while True:
     print("3. View Transaction History") 
     print("4. Quit")
 
-    choice = input("Enter your choice (1/2/3): ").strip()
+    choice = input("Enter your choice (1/2/3/4): ").strip()
 
     if choice == "1":
         add_transactions(transactions)
