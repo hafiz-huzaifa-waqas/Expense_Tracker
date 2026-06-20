@@ -118,6 +118,7 @@ def show_transaction_history(transactions):
 
 # -------------------------------------Execution----------------------------------------------
 
+# To add transactions in this list
 transactions = []
 
 while True:
